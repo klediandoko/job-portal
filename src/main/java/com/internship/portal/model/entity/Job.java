@@ -1,5 +1,6 @@
 package com.internship.portal.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.internship.portal.model.enums.JobType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,9 +11,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "job_posts")
@@ -46,7 +50,14 @@ public class Job {
 
     @ManyToOne
     @JoinColumn(name = "employer_user_id", referencedColumnName = "id")
+    @JsonIgnore
     private User employer;
+
+    @OneToMany(mappedBy = "job")
+    private List<Application> application = new ArrayList<>();
+
+    @OneToMany(mappedBy = "job")
+    private List<Review> reviews = new ArrayList<>();
 
     public Job() {
     }
@@ -121,5 +132,36 @@ public class Job {
 
     public void setEmployer(User employer) {
         this.employer = employer;
+    }
+
+    public List<Application> getApplication() {
+        return application;
+    }
+
+    public void setApplication(List<Application> application) {
+        this.application = application;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    @Override
+    public String toString() {
+        return "Job{" +
+                "id=" + id +
+                ", jobTitle='" + jobTitle + '\'' +
+                ", companyName='" + companyName + '\'' +
+                ", jobDescription='" + jobDescription + '\'' +
+                ", jobType=" + jobType +
+                ", jobSalary='" + jobSalary + '\'' +
+                ", location='" + location + '\'' +
+                ", createdDate=" + createdDate +
+                ", employer=" + employer +
+                '}';
     }
 }

@@ -26,6 +26,12 @@ public class Review {
     @JoinColumn(name = "employer_id", referencedColumnName = "id", nullable = false)
     private User employer;
 
+    @ManyToOne
+    @JoinColumn(name = "job_id", referencedColumnName = "id", nullable = false)
+    private Job job;
+
+    
+
     public Review() {
     }
 
@@ -67,5 +73,22 @@ public class Review {
 
     public void setEmployer(User employer) {
         this.employer = employer;
+    }
+
+    public Job getJob() {
+        return job;
+    }
+
+    public void setJob(Job job) {
+        this.job = job;
+    }
+
+    @Override
+    public String toString() {
+        return "Review{" +
+                "id=" + id +
+                ", review='" + review + '\'' +
+                ", rating=" + rating +
+                '}';
     }
 }

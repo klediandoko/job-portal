@@ -1,6 +1,8 @@
 package com.internship.portal.model.entity;
 
 import com.internship.portal.model.enums.RoleName;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -20,24 +22,21 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Enumerated(EnumType.STRING)
-    private RoleName role;
+    @Column(name = "role", nullable = false)
+    private RoleName roleName;
 
-    @OneToMany(mappedBy = "role")
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = false)
     private Set<User> users = new HashSet<>();
-
-    public Role(Long id) {
-        this.id = id;
-    }
 
     public Role() {
     }
 
-    public RoleName getRole() {
-        return role;
+    public RoleName getRoleName() {
+        return roleName;
     }
 
-    public void setRole(RoleName role) {
-        this.role = role;
+    public void setRoleName(RoleName role) {
+        this.roleName = role;
     }
 
     public Set<User> getUsers() {
@@ -56,5 +55,8 @@ public class Role {
         this.id = id;
     }
 
-
+    @Override
+    public String toString() {
+        return "Role{ role=" + roleName + '}';
+    }
 }

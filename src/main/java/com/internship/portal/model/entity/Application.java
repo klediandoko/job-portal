@@ -1,5 +1,6 @@
 package com.internship.portal.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.internship.portal.model.enums.ApplicationStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,7 +35,13 @@ public class Application {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    @JsonIgnore
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "job_id", referencedColumnName = "id", nullable = false)
+    @JsonIgnore
+    private Job job;
 
 
     public Application() {
@@ -79,5 +86,23 @@ public class Application {
 
     public void setMotivationalLetter(String motivationalLetter) {
         this.motivationalLetter = motivationalLetter;
+    }
+
+    public Job getJob() {
+        return job;
+    }
+
+    public void setJob(Job job) {
+        this.job = job;
+    }
+
+    @Override
+    public String toString() {
+        return "Application{" +
+                "id=" + id +
+                ", status=" + status +
+                ", appliedDate=" + appliedDate +
+                ", motivationalLetter='" + motivationalLetter + '\'' +
+                '}';
     }
 }

@@ -53,4 +53,12 @@ public class Resume {
     public void setJobSeeker(User jobSeeker) {
         this.jobSeeker = jobSeeker;
     }
+
+    @Override
+    public String toString() {
+        return "Resume{" +
+                "id=" + id +
+                ", filePath='" + filePath + '\'' +
+                '}';
+    }
 }
