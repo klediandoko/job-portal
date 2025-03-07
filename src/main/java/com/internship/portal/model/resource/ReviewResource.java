@@ -1,7 +1,5 @@
 package com.internship.portal.model.resource;
 
-import com.internship.portal.model.entity.User;
-
 public class ReviewResource {
 
     private Long id;

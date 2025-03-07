@@ -6,7 +6,6 @@ import com.internship.portal.model.resource.ReviewResource;
 import com.internship.portal.repository.ReviewRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
