@@ -1,6 +1,5 @@
 package com.internship.portal.controller;
 
-import com.internship.portal.model.enums.ApplicationStatus;
 import com.internship.portal.model.resource.ApplicationResource;
 import com.internship.portal.model.resource.JobResource;
 import com.internship.portal.model.resource.ResumeResource;
@@ -8,6 +7,7 @@ import com.internship.portal.service.ApplicationService;
 import com.internship.portal.service.AuthService;
 import com.internship.portal.service.JobService;
 import com.internship.portal.service.ResumeService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,10 +52,9 @@ public class JobSeekerController {
 
     @PostMapping("/upload")
     public ResponseEntity<ResumeResource> uploadResume(
-            @RequestParam("userId") Long userId,
-            @RequestParam("file") MultipartFile file) {
+           @RequestParam("file") MultipartFile file) {
         try {
-            ResumeResource resumeResource = resumeService.uploadResume(userId, file);
+            ResumeResource resumeResource = resumeService.uploadResume(authService.getLoggedInUserId(), file);
             return ResponseEntity.ok(resumeResource);
         } catch (IOException e) {
             return ResponseEntity.internalServerError().body(null);
@@ -87,9 +86,9 @@ public class JobSeekerController {
     }
 
     @PostMapping(value = "/save")
-    public ResponseEntity<Void> saveApplication(@RequestBody ApplicationResource applicationResource) {
+    public ResponseEntity<Void> saveApplication(
+            @Valid @RequestBody ApplicationResource applicationResource) {
         applicationResource.setUserId(authService.getLoggedInUserId());
-        applicationResource.setStatus(ApplicationStatus.PENDING);
         applicationService.saveApplication(applicationResource);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

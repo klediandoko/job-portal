@@ -9,6 +9,7 @@ import com.internship.portal.service.ApplicationService;
 import com.internship.portal.service.AuthService;
 import com.internship.portal.service.JobService;
 import com.internship.portal.service.ReviewService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,7 +51,7 @@ public class EmployerController {
     }
 
     @PostMapping(path = "/save-job", consumes = "application/json")
-    public ResponseEntity<Void> saveJob(@RequestBody JobResource jobResource) {
+    public ResponseEntity<Void> saveJob(@Valid @RequestBody JobResource jobResource) {
         Long loggedInEmployerId = authService.getLoggedInUserId();
         jobResource.setEmployerId(loggedInEmployerId);
         jobService.saveJob(jobResource);
@@ -97,7 +98,7 @@ public class EmployerController {
     }
 
     @PostMapping(value = "/save-review", consumes = "application/json")
-    public ResponseEntity<Void> saveReview(@RequestBody ReviewResource reviewResource) {
+    public ResponseEntity<Void> saveReview(@Valid @RequestBody ReviewResource reviewResource) {
         reviewResource.setEmployerId(authService.getLoggedInUserId());
         reviewService.save(reviewResource);
         return ResponseEntity.status(HttpStatus.CREATED).build();

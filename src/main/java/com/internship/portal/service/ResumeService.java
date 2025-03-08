@@ -31,26 +31,22 @@ public class ResumeService {
         if (file.isEmpty()) {
             throw new IllegalArgumentException("File cannot be empty");
         }
-
         Path uploadPath = Paths.get(UPLOAD_DIR);
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
         }
-
         String fileName = userId + "_" + System.currentTimeMillis() + "_" + file.getOriginalFilename();
         Path filePath = uploadPath.resolve(fileName);
-
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
-
         Resume resume = resumeRepository.findByJobSeekerId(userId);
-        if (resume == null) {
+        if (resume != null) {
+            resume.setFilePath(filePath.toString());
+        } else {
             resume = new Resume();
             resume.setJobSeeker(user);
+            resume.setFilePath(filePath.toString());
         }
-        resume.setFilePath(filePath.toString());
-
         Resume savedResume = resumeRepository.save(resume);
         return resumeMapper.toResource(savedResume);
     }

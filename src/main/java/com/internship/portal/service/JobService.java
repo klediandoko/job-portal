@@ -7,12 +7,10 @@ import com.internship.portal.repository.JobRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -28,6 +26,7 @@ public class JobService {
 
     @Transactional
     public void saveJob(JobResource jobResource) {
+        jobResource.setCreatedDate(new Date());
         jobRepository.save(jobMapper.jobResourceToJob(jobResource));
     }
 

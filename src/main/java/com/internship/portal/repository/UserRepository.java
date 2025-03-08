@@ -1,6 +1,5 @@
 package com.internship.portal.repository;
 
-import com.internship.portal.model.entity.Role;
 import com.internship.portal.model.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

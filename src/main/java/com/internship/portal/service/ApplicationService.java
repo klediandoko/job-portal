@@ -49,6 +49,7 @@ public class ApplicationService {
     @Transactional
     public void saveApplication(ApplicationResource applicationResource) {
         applicationResource.setAppliedDate(LocalDateTime.now());
+        applicationResource.setStatus(ApplicationStatus.PENDING);
         applicationRepository.save(applicationMapper.applicationResourceToApplication(applicationResource));
     }
 
