@@ -2,6 +2,7 @@ package com.internship.portal.controller;
 
 import com.internship.portal.model.enums.ApplicationStatus;
 import com.internship.portal.model.resource.ApplicationResource;
+import com.internship.portal.model.resource.ApplicationWithResumeResource;
 import com.internship.portal.model.resource.JobResource;
 import com.internship.portal.model.resource.ReviewResource;
 import com.internship.portal.service.ApplicationService;
@@ -40,38 +41,20 @@ public class EmployerController {
     private final AuthService authService;
 
     @Autowired
-    public EmployerController(JobService jobService, ApplicationService applicationService, ReviewService reviewService, AuthService authService) {
+    public EmployerController(JobService jobService, ApplicationService applicationService,
+                              ReviewService reviewService, AuthService authService) {
         this.jobService = jobService;
         this.applicationService = applicationService;
         this.reviewService = reviewService;
         this.authService = authService;
     }
 
-    @GetMapping(value = "/jobs/{employerId}")
-    public ResponseEntity<List<JobResource>> getJobsForEmployer(@PathVariable Long employerId) {
-        return ResponseEntity.ok(jobService.getAllJobsByEmployer(employerId));
-    }
-
-    @PostMapping(path = "/save", consumes = "application/json")
+    @PostMapping(path = "/save-job", consumes = "application/json")
     public ResponseEntity<Void> saveJob(@RequestBody JobResource jobResource) {
+        Long loggedInEmployerId = authService.getLoggedInUserId();
+        jobResource.setEmployerId(loggedInEmployerId);
         jobService.saveJob(jobResource);
-        return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping(value = "/jobs/applications/{jobId}")
-    public ResponseEntity<List<ApplicationResource>> getApplicationsForJob(@PathVariable Long jobId) {
-        return ResponseEntity.ok(applicationService.getAllApplicationsByJobId(jobId));
-    }
-
-    @PutMapping(value = "/update-status/{applicationId}")
-    public ResponseEntity<Void> updateApplicationStatus(@PathVariable Long applicationId, @RequestParam("applicationStatus") ApplicationStatus applicationStatus) {
-        applicationService.updateApplicationStatus(applicationId, applicationStatus);
-        return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping(value = "/jobs/reviews/{jobId}")
-    public ResponseEntity<Optional<List<ReviewResource>>> getReviewsForJob(@PathVariable Long jobId) {
-        return ResponseEntity.ofNullable(reviewService.getAllByJobId(jobId));
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/my-jobs")
@@ -80,6 +63,44 @@ public class EmployerController {
         Long loggedInUserId = authService.getLoggedInUserId();
         return jobService.getJobsByEmployer(loggedInUserId, title, location, page, size);
 
+    }
+
+    @GetMapping(value = "/jobs/applications/{jobId}")
+    public ResponseEntity<List<ApplicationResource>> getApplicationsForJob(@PathVariable Long jobId) {
+        if (authService.getLoggedInUserId().equals(jobService.getJobById(jobId).getEmployerId())) {
+            return ResponseEntity.ok(applicationService.getAllApplicationsByJobId(jobId));
+        }else {
+            throw new RuntimeException("Job not found");
+        }
+    }
+
+    @GetMapping(value = "/my-job/applications/{jobId}")
+    public Page<ApplicationWithResumeResource> getAllApplicationsForJob(
+            @PathVariable Long jobId,
+            @RequestParam(value = "applicationStatus", required = false) ApplicationStatus applicationStatus,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        if (authService.getLoggedInUserId().equals(jobService.getJobById(jobId).getEmployerId())) {
+            return applicationService.findAllByJobIdAndFilters(jobId, applicationStatus, page, size);
+        }else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Job not found!");
+        }
+
+    }
+
+    @PutMapping(value = "/update-status/{applicationId}")
+    public ResponseEntity<Void> updateApplicationStatus(
+            @PathVariable Long applicationId,
+            @RequestParam("applicationStatus") ApplicationStatus applicationStatus) {
+        applicationService.updateApplicationStatus(applicationId, applicationStatus);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping(value = "/save-review", consumes = "application/json")
+    public ResponseEntity<Void> saveReview(@RequestBody ReviewResource reviewResource) {
+        reviewResource.setEmployerId(authService.getLoggedInUserId());
+        reviewService.save(reviewResource);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/jobs/reviews")
@@ -94,11 +115,6 @@ public class EmployerController {
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Job not found!");
         }
-    }
-
-    @PostMapping
-    public void saveReview(@RequestBody ReviewResource reviewResource) {
-        //TODO: implement method for to save a new review for a job
     }
 
 }

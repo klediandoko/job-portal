@@ -32,4 +32,6 @@ public interface JobRepository extends JpaRepository<Job, Long> {
             @RequestParam("location") String location,
             @RequestParam("employerId") Long employerId,
             Pageable pageable);
+
+    Job getJobById(Long id);
 }

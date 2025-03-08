@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ReviewMapper {
 
-    @Mapping(source = "employer.id",target = "employerName", defaultValue = "UNKNOWN")
+    @Mapping(source = "employer.name",target = "employerName", defaultValue = "UNKNOWN")
     @Mapping(source = "job.jobTitle", target = "jobTitle", defaultValue = "UNKNOWN")
     @Mapping(source = "employer.id", target = "employerId")
     @Mapping(source = "job.id", target = "jobId")

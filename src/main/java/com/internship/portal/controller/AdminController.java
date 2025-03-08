@@ -30,11 +30,6 @@ public class AdminController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/users")
-    public ResponseEntity<List<UserResource>> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
-    }
-
     @DeleteMapping(value = "/delete")
     @Transactional
     public ResponseEntity<Void> deleteUserByEmail(@RequestParam("email") String email) {

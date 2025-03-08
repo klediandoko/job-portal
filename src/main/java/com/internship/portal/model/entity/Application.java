@@ -28,19 +28,17 @@ public class Application {
     private ApplicationStatus status = ApplicationStatus.PENDING;
 
     @Column(name = "applied_date", nullable = false)
-    private LocalDateTime appliedDate = LocalDateTime.now();
+    private LocalDateTime appliedDate;
 
     @Column(name = "motivational_letter", nullable = false)
     private String motivationalLetter;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    @JsonIgnore
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "job_id", referencedColumnName = "id", nullable = false)
-    @JsonIgnore
     private Job job;
 
 
