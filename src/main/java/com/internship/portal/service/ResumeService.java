@@ -19,13 +19,12 @@ public class ResumeService {
     private final ResumeRepository resumeRepository;
     private final UserRepository userRepository;
     private final ResumeMapper resumeMapper;
-    private final ResumeResource resumeResource;
 
-    public ResumeService(ResumeRepository resumeRepository, UserRepository userRepository, ResumeMapper resumeMapper, ResumeResource resumeResource) {
+
+    public ResumeService(ResumeRepository resumeRepository, UserRepository userRepository, ResumeMapper resumeMapper) {
         this.resumeRepository = resumeRepository;
         this.userRepository = userRepository;
         this.resumeMapper = resumeMapper;
-        this.resumeResource = resumeResource;
     }
 
     public ResumeResource uploadResume(Long userId, MultipartFile file) throws IOException {
