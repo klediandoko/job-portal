@@ -25,5 +25,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "(:roleName is null or lower(u.role.roleName) like concat('%', :roleName, '%'))")
     Page<User> findAllFilterByRole( @RequestParam("roleName") String roleName, Pageable pageable);
 
-    String role(Role role);
 }

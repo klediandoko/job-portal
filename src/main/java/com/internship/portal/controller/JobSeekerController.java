@@ -1,5 +1,6 @@
 package com.internship.portal.controller;
 
+import com.internship.portal.model.enums.ApplicationStatus;
 import com.internship.portal.model.resource.ApplicationResource;
 import com.internship.portal.model.resource.JobResource;
 import com.internship.portal.model.resource.ResumeResource;
@@ -8,10 +9,12 @@ import com.internship.portal.service.AuthService;
 import com.internship.portal.service.JobService;
 import com.internship.portal.service.ResumeService;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -83,8 +86,11 @@ public class JobSeekerController {
 
     }
 
-    @PostMapping
-    public void saveApplication(){
-        //TODO implementing the create a new application method.
+    @PostMapping(value = "/save")
+    public ResponseEntity<Void> saveApplication(@RequestBody ApplicationResource applicationResource) {
+        applicationResource.setUserId(authService.getLoggedInUserId());
+        applicationResource.setStatus(ApplicationStatus.PENDING);
+        applicationService.saveApplication(applicationResource);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

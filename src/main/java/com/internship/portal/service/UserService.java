@@ -22,12 +22,6 @@ public class UserService {
         this.userMapper = userMapper;
     }
 
-    public List<UserResource> getAllUsers() {
-        return userRepository.findAll().stream()
-                .map(userMapper::userToUserResource)
-                .toList();
-    }
-
     public Page<UserResource> getAllUsers(String roleName, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<User> userPage = userRepository.findAllFilterByRole(roleName, pageable);

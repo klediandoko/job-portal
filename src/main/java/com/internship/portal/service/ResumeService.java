@@ -15,15 +15,17 @@ import java.nio.file.*;
 @Service
 public class ResumeService {
 
+    private static final String UPLOAD_DIR = "uploads/resumes/";
     private final ResumeRepository resumeRepository;
     private final UserRepository userRepository;
-    private static final String UPLOAD_DIR = "uploads/resumes/";
     private final ResumeMapper resumeMapper;
+    private final ResumeResource resumeResource;
 
-    public ResumeService(ResumeRepository resumeRepository, UserRepository userRepository, ResumeMapper resumeMapper) {
+    public ResumeService(ResumeRepository resumeRepository, UserRepository userRepository, ResumeMapper resumeMapper, ResumeResource resumeResource) {
         this.resumeRepository = resumeRepository;
         this.userRepository = userRepository;
         this.resumeMapper = resumeMapper;
+        this.resumeResource = resumeResource;
     }
 
     public ResumeResource uploadResume(Long userId, MultipartFile file) throws IOException {
@@ -41,8 +43,7 @@ public class ResumeService {
 
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         Resume resume = resumeRepository.findByJobSeekerId(userId);
         if (resume == null) {

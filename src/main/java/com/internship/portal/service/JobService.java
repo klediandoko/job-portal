@@ -26,13 +26,6 @@ public class JobService {
         this.jobMapper = jobMapper;
     }
 
-    public List<JobResource> getAllJobsByEmployer(Long employerId) {
-        return Optional.ofNullable(jobMapper.jobsToJobResource(jobRepository.findAllByEmployer_Id(employerId)))
-                .filter(jobs -> !jobs.isEmpty())
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "No jobs found for employer ID: " + employerId));
-    }
-
     @Transactional
     public void saveJob(JobResource jobResource) {
         jobRepository.save(jobMapper.jobResourceToJob(jobResource));

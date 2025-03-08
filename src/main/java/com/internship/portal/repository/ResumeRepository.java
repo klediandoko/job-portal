@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface ResumeRepository extends JpaRepository<Resume, Long> {
 
     Resume findByJobSeekerId(Long userId);
+
+    Boolean existsByJobSeekerId(Long userId);
 }
