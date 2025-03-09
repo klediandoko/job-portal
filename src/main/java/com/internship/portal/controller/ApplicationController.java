@@ -2,11 +2,7 @@ package com.internship.portal.controller;
 
 import com.internship.portal.model.enums.ApplicationStatus;
 import com.internship.portal.model.resource.ApplicationResource;
-import com.internship.portal.model.resource.ApplicationWithResumeResource;
 import com.internship.portal.service.ApplicationService;
-import com.internship.portal.service.AuthService;
-import com.internship.portal.service.JobService;
-import com.internship.portal.service.ReviewService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +16,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.io.IOException;
 
 import static com.internship.portal.controller.ApplicationController.APPLICATION_PAGE;
 
@@ -32,42 +29,20 @@ import static com.internship.portal.controller.ApplicationController.APPLICATION
 public class ApplicationController {
 
     static final String APPLICATION_PAGE = "/applications";
-    private final JobService jobService;
     private final ApplicationService applicationService;
-    private final ReviewService reviewService;
-    private final AuthService authService;
 
     @Autowired
-    public ApplicationController(JobService jobService, ApplicationService applicationService,
-                                 ReviewService reviewService, AuthService authService) {
-        this.jobService = jobService;
+    public ApplicationController(ApplicationService applicationService) {
         this.applicationService = applicationService;
-        this.reviewService = reviewService;
-        this.authService = authService;
-    }
-
-
-    @GetMapping(value = "/jobs/applications/{jobId}")
-    @PreAuthorize("hasRole('EMPLOYER')")
-    public ResponseEntity<List<ApplicationResource>> getApplicationsForJob(@PathVariable Long jobId) {
-        if (!authService.getLoggedInUserId().equals(jobService.getJobById(jobId).getEmployerId())) {
-            throw new RuntimeException("Job not found");
-        }
-
-        return ResponseEntity.ok(applicationService.getAllApplicationsByJobId(jobId));
     }
 
     @GetMapping(value = "/my-job/applications/{jobId}")
     @PreAuthorize("hasRole('EMPLOYER')")
-    public Page<ApplicationWithResumeResource> getAllApplicationsForJob(
+    public Page<ApplicationResource> getAllApplicationsForJob(
             @PathVariable Long jobId,
             @RequestParam(value = "applicationStatus", required = false) ApplicationStatus applicationStatus,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        if (!authService.getLoggedInUserId().equals(jobService.getJobById(jobId).getEmployerId())) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Job not found!");
-        }
-
         return applicationService.findAllByJobIdAndFilters(jobId, applicationStatus, page, size);
     }
 
@@ -100,5 +75,15 @@ public class ApplicationController {
 
         return ResponseEntity.ok(applicationService.getMyApplicationsAndFilters(
                 applicationStatus, jobTitle, page, size));
+    }
+
+    @PostMapping(value = "/save-applications", consumes = {"multipart/form-data"})
+    @PreAuthorize("hasRole('JOB_SEEKER')")
+    public ResponseEntity<Void> createApplication(
+            @RequestPart("application") ApplicationResource applicationResource,
+            @RequestPart(name = "resume", required = false) MultipartFile resumeFile) throws IOException {
+
+        applicationService.saveApplicationWithOptionalResume(applicationResource, resumeFile);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

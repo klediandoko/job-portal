@@ -21,7 +21,6 @@ public class Review {
     @Column(name = "rating", nullable = false)
     private Integer rating;
 
-
     @ManyToOne
     @JoinColumn(name = "employer_id", referencedColumnName = "id", nullable = false)
     private User employer;
@@ -29,8 +28,6 @@ public class Review {
     @ManyToOne
     @JoinColumn(name = "job_id", referencedColumnName = "id", nullable = false)
     private Job job;
-
-    
 
     public Review() {
     }
@@ -40,9 +37,6 @@ public class Review {
         this.reviewDescription = reviewDescription;
         this.rating = rating;
     }
-
-
-
     public Long getId() {
         return id;
     }
@@ -81,14 +75,5 @@ public class Review {
 
     public void setJob(Job job) {
         this.job = job;
-    }
-
-    @Override
-    public String toString() {
-        return "Review{" +
-                "id=" + id +
-                ", reviewDescription='" + reviewDescription + '\'' +
-                ", rating=" + rating +
-                '}';
     }
 }

@@ -19,7 +19,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByEmail(String email);
 
-
     @Query("select u from User u where " +
             "(:roleName is null or lower(u.role.roleName) like concat('%', :roleName, '%'))")
     Page<User> findAllFilterByRole(@Param("roleName") String roleName, Pageable pageable);

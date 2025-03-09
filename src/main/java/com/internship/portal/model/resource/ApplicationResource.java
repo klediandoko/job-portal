@@ -20,6 +20,7 @@ public class ApplicationResource {
     @Min(value = 1, message = "Job Id must be positive")
     private Long jobId;
     private Long userId;
+    private ResumeResource resumeResource;
 
     public ApplicationResource() {
     }
@@ -86,5 +87,13 @@ public class ApplicationResource {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public ResumeResource getResumeResource() {
+        return resumeResource;
+    }
+
+    public void setResumeResource(ResumeResource resumeResource) {
+        this.resumeResource = resumeResource;
     }
 }

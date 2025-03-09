@@ -17,6 +17,4 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
             @Param("jobId") Long jobId,
             @Param("rating") Integer rating,
             Pageable pageable);
-
-
 }

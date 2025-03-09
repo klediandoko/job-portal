@@ -54,9 +54,4 @@ public class Role {
     public void setId(Long id) {
         this.id = id;
     }
-
-    @Override
-    public String toString() {
-        return "Role{ role=" + roleName + '}';
-    }
 }

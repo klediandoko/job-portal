@@ -10,7 +10,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 
 
 @Service
@@ -50,10 +49,4 @@ public class JobService {
         Page<Job> jobPage = jobRepository.findAllAndFiltersJobs(title, location, employerId, pageable);
         return jobPage.map(jobMapper::jobToJobResource);
     }
-
-    public JobResource getJobById(Long id) {
-        return jobMapper.jobToJobResource(jobRepository.findById(id).get());
-    }
-
-
 }

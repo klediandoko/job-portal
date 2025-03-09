@@ -1,6 +1,7 @@
 package com.internship.portal.model.entity;
 
 import com.internship.portal.model.enums.ApplicationStatus;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -10,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 import java.time.LocalDateTime;
@@ -39,6 +41,10 @@ public class Application {
     @ManyToOne
     @JoinColumn(name = "job_id", referencedColumnName = "id", nullable = false)
     private Job job;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "resume_id", referencedColumnName = "id")
+    private Resume resume;
 
 
     public Application() {
@@ -93,13 +99,11 @@ public class Application {
         this.job = job;
     }
 
-    @Override
-    public String toString() {
-        return "Application{" +
-                "id=" + id +
-                ", status=" + status +
-                ", appliedDate=" + appliedDate +
-                ", motivationalLetter='" + motivationalLetter + '\'' +
-                '}';
+    public Resume getResume() {
+        return resume;
+    }
+
+    public void setResume(Resume resume) {
+        this.resume = resume;
     }
 }
