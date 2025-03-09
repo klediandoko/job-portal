@@ -6,7 +6,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -28,9 +27,9 @@ public interface JobRepository extends JpaRepository<Job, Long> {
             "AND (:location IS NULL OR LOWER(j.location) LIKE LOWER(CONCAT('%', :location, '%'))) " +
             "AND (:employerId IS NULL OR j.employer.id = :employerId)")
     Page<Job> findAllAndFiltersJobs(
-            @RequestParam("title") String title,
-            @RequestParam("location") String location,
-            @RequestParam("employerId") Long employerId,
+            @Param("title") String title,
+            @Param("location") String location,
+            @Param("employerId") Long employerId,
             Pageable pageable);
 
     Job getJobById(Long id);

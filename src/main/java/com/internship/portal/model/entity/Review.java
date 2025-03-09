@@ -17,7 +17,7 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "review", nullable = false)
-    private String review;
+    private String reviewDescription;
     @Column(name = "rating", nullable = false)
     private Integer rating;
 
@@ -35,9 +35,9 @@ public class Review {
     public Review() {
     }
 
-    public Review(Long id, String review, Integer rating) {
+    public Review(Long id, String reviewDescription, Integer rating) {
         this.id = id;
-        this.review = review;
+        this.reviewDescription = reviewDescription;
         this.rating = rating;
     }
 
@@ -51,12 +51,12 @@ public class Review {
         this.id = id;
     }
 
-    public String getReview() {
-        return review;
+    public String getReviewDescription() {
+        return reviewDescription;
     }
 
-    public void setReview(String review) {
-        this.review = review;
+    public void setReviewDescription(String reviewDescription) {
+        this.reviewDescription = reviewDescription;
     }
 
     public Integer getRating() {
@@ -87,7 +87,7 @@ public class Review {
     public String toString() {
         return "Review{" +
                 "id=" + id +
-                ", review='" + review + '\'' +
+                ", reviewDescription='" + reviewDescription + '\'' +
                 ", rating=" + rating +
                 '}';
     }

@@ -8,6 +8,6 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface ApplicationWithResumeMapper {
 
-//    @Mapping(source = "user.resume.filePath", target = "filePath", defaultValue = "NO RESUME")
-//    ApplicationWithResumeResource applicationToApplicationWithResumeResource(Application application);
+    @Mapping(source = "user.resume.filePath", target = "filePath", defaultValue = "NO RESUME")
+    ApplicationWithResumeResource applicationToApplicationWithResumeResource(Application application);
 }

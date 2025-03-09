@@ -1,12 +1,22 @@
 package com.internship.portal.model.resource;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class ReviewResource {
 
     private Long id;
-    private String review;
+    @NotBlank(message = "A review description is needed")
+    private String reviewDescription;
+    @NotNull(message = "Rating must be compiled")
+    @Min(value = 1, message = "Rating cannot be lower than 1")
+    @Max(value = 5, message = "Value cannot be bigger than 5")
     private Integer rating;
     private String employerName;
     private Long employerId;
+    @NotNull(message = "Job Id missing")
     private Long jobId;
     private String jobTitle;
 
@@ -21,12 +31,12 @@ public class ReviewResource {
         this.id = id;
     }
 
-    public String getReview() {
-        return review;
+    public String getReviewDescription() {
+        return reviewDescription;
     }
 
-    public void setReview(String review) {
-        this.review = review;
+    public void setReviewDescription(String reviewDescription) {
+        this.reviewDescription = reviewDescription;
     }
 
     public Integer getRating() {

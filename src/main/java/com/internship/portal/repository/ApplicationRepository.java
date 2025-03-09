@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -22,16 +21,16 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
     @Modifying
     @Query("update Application a set a.status = :status where a.id = :id")
     void updateApplicationStatus(
-            @RequestParam("id") Long id,
-            @RequestParam("status") String status);
+            @Param("id") Long id,
+            @Param("status") String status);
 
     @Query("select a from Application a where a.user.id = :userId" +
             " and (:applicationStatus is null or  lower(a.status) like (concat('%', :applicationStatus, '%') )) " +
             "and (:jobTitle is null or lower(a.job.jobTitle) like lower(concat('%', :jobTitle, '%')))")
     Page<Application> findAllByUserAndFilters(
-            @RequestParam("userId") Long userId,
-            @RequestParam("applicationStatus") String applicationStatus,
-            @RequestParam("jobTitle") String jobTitle,
+            @Param("userId") Long userId,
+            @Param("applicationStatus") String applicationStatus,
+            @Param("jobTitle") String jobTitle,
             Pageable pageable);
 
     @Query("select a, r.filePath from Application a " +

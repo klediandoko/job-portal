@@ -2,17 +2,24 @@ package com.internship.portal.model.resource;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.internship.portal.model.enums.JobType;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.Date;
 
 public class JobResource {
 
     private Long id;
+    @NotBlank(message = "Job Title must not be empty!")
     private String jobTitle;
+    @NotBlank(message = "Company name must not be empty")
     private String companyName;
+    @NotBlank(message = "A description is needed for the job")
     private String jobDescription;
     private JobType jobType;
+    @Min(value = 0, message = "Salary cannot be negative")
     private String jobSalary;
+    @NotBlank(message = "A location is needed")
     private String location;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date createdDate;

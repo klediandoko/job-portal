@@ -1,6 +1,9 @@
 package com.internship.portal.model.resource;
 
 import com.internship.portal.model.enums.ApplicationStatus;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
@@ -9,9 +12,12 @@ public class ApplicationResource {
     private Long id;
     private ApplicationStatus status;
     private LocalDateTime appliedDate;
+    @NotBlank(message = "Motivational letter required")
     private String motivationalLetter;
     private String applicantName;
     private String jobTitle;
+    @NotNull(message = "Job Id required")
+    @Min(value = 1, message = "Job Id must be positive")
     private Long jobId;
     private Long userId;
 
