@@ -7,15 +7,11 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
-import java.util.List;
-
 @Mapper(componentModel = "spring")
 public interface JobMapper {
 
     @Mapping(source = "employer.id", target = "employerId")
     JobResource jobToJobResource(Job job);
-
-    List<JobResource> jobsToJobResource(List<Job> jobs);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(source = "employerId", target = "employer", qualifiedByName = "mapEmployer")

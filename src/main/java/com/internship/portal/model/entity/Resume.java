@@ -4,7 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -18,9 +17,8 @@ public class Resume {
 
     private String filePath;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    private User jobSeeker;
+    @OneToOne(mappedBy = "resume")
+    private Application application;
 
     public Resume() {
     }
@@ -46,19 +44,11 @@ public class Resume {
         this.filePath = filePath;
     }
 
-    public User getJobSeeker() {
-        return jobSeeker;
+    public Application getApplication() {
+        return application;
     }
 
-    public void setJobSeeker(User jobSeeker) {
-        this.jobSeeker = jobSeeker;
-    }
-
-    @Override
-    public String toString() {
-        return "Resume{" +
-                "id=" + id +
-                ", filePath='" + filePath + '\'' +
-                '}';
+    public void setApplication(Application application) {
+        this.application = application;
     }
 }

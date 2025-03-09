@@ -7,8 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
-
 public interface JobRepository extends JpaRepository<Job, Long> {
 
     @Query("SELECT j FROM Job j WHERE j.employer.id = :employerId " +
@@ -20,8 +18,6 @@ public interface JobRepository extends JpaRepository<Job, Long> {
             @Param("location") String location,
             Pageable pageable);
 
-    List<Job> findAllByEmployer_Id(Long employerId);
-
     @Query("SELECT j FROM Job j WHERE (:title IS NULL OR LOWER(j.jobTitle)" +
             " LIKE LOWER(CONCAT('%', :title, '%'))) " +
             "AND (:location IS NULL OR LOWER(j.location) LIKE LOWER(CONCAT('%', :location, '%'))) " +
@@ -31,6 +27,4 @@ public interface JobRepository extends JpaRepository<Job, Long> {
             @Param("location") String location,
             @Param("employerId") Long employerId,
             Pageable pageable);
-
-    Job getJobById(Long id);
 }

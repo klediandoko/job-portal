@@ -150,18 +150,4 @@ public class Job {
         this.reviews = reviews;
     }
 
-    @Override
-    public String toString() {
-        return "Job{" +
-                "id=" + id +
-                ", jobTitle='" + jobTitle + '\'' +
-                ", companyName='" + companyName + '\'' +
-                ", jobDescription='" + jobDescription + '\'' +
-                ", jobType=" + jobType +
-                ", jobSalary='" + jobSalary + '\'' +
-                ", location='" + location + '\'' +
-                ", createdDate=" + createdDate +
-                ", employer=" + employer +
-                '}';
-    }
 }

@@ -5,8 +5,6 @@ import com.internship.portal.model.resource.ReviewResource;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import java.util.List;
-
 @Mapper(componentModel = "spring")
 public interface ReviewMapper {
 

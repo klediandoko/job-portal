@@ -1,6 +1,5 @@
 package com.internship.portal.controller;
 
-import com.internship.portal.exception.CustomException;
 import com.internship.portal.model.resource.ReviewResource;
 import com.internship.portal.service.ReviewService;
 import jakarta.validation.Valid;

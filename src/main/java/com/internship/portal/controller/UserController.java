@@ -19,7 +19,6 @@ import static com.internship.portal.controller.UserController.USERS_PAGE;
 public class UserController {
 
     static final String USERS_PAGE = "/users";
-
     private final UserService userService;
 
     public UserController(UserService userService) {
