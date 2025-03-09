@@ -27,26 +27,24 @@ public class JobController {
         this.jobService = jobService;
     }
 
-    @PostMapping(path = "/save-job", consumes = "application/json")
+    @PostMapping(value = "/save", consumes = "application/json")
     @PreAuthorize("hasRole('EMPLOYER')")
     public ResponseEntity<Void> saveJob(@Valid @RequestBody JobResource jobResource) {
-
         jobService.saveJob(jobResource);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/my-jobs")
+    @GetMapping(value = "/my-jobs")
     @PreAuthorize("hasRole('EMPLOYER')")
     public ResponseEntity<Page<JobResource>> getMyJobs(
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String location,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-
         return ResponseEntity.ok(jobService.getJobsByEmployer(title, location, page, size));
     }
 
-    @GetMapping(value = "/jobs-filter")
+    @GetMapping(value = "/all")
     @PreAuthorize("hasRole('JOB_SEEKER')")
     public ResponseEntity<Page<JobResource>> getAllJobs(
             @RequestParam(required = false) String title,
@@ -54,7 +52,6 @@ public class JobController {
             @RequestParam(required = false) Long employerId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-
         return ResponseEntity.ok(jobService.findAllJobsAndFilters(title, location, employerId, page, size));
     }
 }

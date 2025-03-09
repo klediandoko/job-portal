@@ -25,7 +25,6 @@ public class UserService {
         Pageable pageable = PageRequest.of(page, size);
         Page<User> userPage = userRepository.findAllFilterByRole(roleName, pageable);
         return userPage.map(userMapper::userToUserResource);
-
     }
 
     @Transactional

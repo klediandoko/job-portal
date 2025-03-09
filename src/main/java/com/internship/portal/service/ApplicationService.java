@@ -71,10 +71,9 @@ public class ApplicationService {
                 .orElseThrow(() -> new CustomException("Application not found", HttpStatus.NOT_FOUND));
 
         Long loggedInUserId = authService.getLoggedInUserId();
-        if (!application.getUser().getId().equals(loggedInUserId)) {
+        if (!application.getJob().getEmployer().getId().equals(loggedInUserId)) {
             throw new CustomException("Application not found", HttpStatus.NOT_FOUND);
         }
-
         application.setStatus(newStatus);
         applicationRepository.save(application);
     }

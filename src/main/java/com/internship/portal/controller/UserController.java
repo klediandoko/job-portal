@@ -25,7 +25,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/users")
+    @GetMapping(value = "/all")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Page<UserResource>> getAllUsersByRole(
             @RequestParam(value = "roleName", required = false) String roleName,

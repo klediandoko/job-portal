@@ -20,28 +20,27 @@ import static com.internship.portal.controller.ReviewController.REVIEW_PAGE;
 @RequestMapping(REVIEW_PAGE)
 public class ReviewController {
 
-    static final String REVIEW_PAGE = "/review";
+    static final String REVIEW_PAGE = "/reviews";
     private final ReviewService reviewService;
 
     public ReviewController(ReviewService reviewService) {
         this.reviewService = reviewService;
     }
 
-    @PostMapping(value = "/save-review", consumes = "application/json")
+    @PostMapping(value = "/save", consumes = "application/json")
     @PreAuthorize("hasRole('EMPLOYER')")
     public ResponseEntity<Void> saveReview(@Valid @RequestBody ReviewResource reviewResource) {
         reviewService.save(reviewResource);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/jobs/reviews")
+    @GetMapping("/job")
     @PreAuthorize("hasRole('EMPLOYER')")
     public ResponseEntity<Page<ReviewResource>> getReviewsForJob(
             @RequestParam(value = "jobId") Long jobId,
             @RequestParam(value = "rating", required = false) Integer rating,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-
         return ResponseEntity.ok(reviewService.getAllReviewsByJobIdAndFilters(jobId, rating, page, size));
     }
 }

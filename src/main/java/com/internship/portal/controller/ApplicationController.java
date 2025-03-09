@@ -36,7 +36,7 @@ public class ApplicationController {
         this.applicationService = applicationService;
     }
 
-    @GetMapping(value = "/my-job/applications/{jobId}")
+    @GetMapping(value = "/job/{jobId}")
     @PreAuthorize("hasRole('EMPLOYER')")
     public Page<ApplicationResource> getAllApplicationsForJob(
             @PathVariable Long jobId,
@@ -56,15 +56,6 @@ public class ApplicationController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping(value = "/save")
-    @PreAuthorize("hasRole('JOB_SEEKER')")
-    public ResponseEntity<Void> addApplication(
-            @Valid @RequestBody ApplicationResource applicationResource) {
-
-        applicationService.saveApplication(applicationResource);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
     @GetMapping("/my-applications")
     @PreAuthorize("hasRole('JOB_SEEKER')")
     public ResponseEntity<Page<ApplicationResource>> getMyApplications(
@@ -77,7 +68,7 @@ public class ApplicationController {
                 applicationStatus, jobTitle, page, size));
     }
 
-    @PostMapping(value = "/save-applications", consumes = {"multipart/form-data"})
+    @PostMapping(value = "/save", consumes = {"multipart/form-data"})
     @PreAuthorize("hasRole('JOB_SEEKER')")
     public ResponseEntity<Void> createApplication(
             @RequestPart("application") ApplicationResource applicationResource,
