@@ -90,17 +90,8 @@ public class ApplicationService {
     }
 
     @Transactional
-    public void saveApplication(ApplicationResource applicationResource) {
-        applicationResource.setUserId(authService.getLoggedInUserId());
-        applicationResource.setAppliedDate(LocalDateTime.now());
-        applicationResource.setStatus(ApplicationStatus.PENDING);
-
-        applicationRepository.save(applicationMapper.applicationResourceToApplication(applicationResource));
-    }
-
-    @Transactional
-    public void saveApplicationWithOptionalResume(ApplicationResource applicationResource,
-                                                  MultipartFile resumeFile) throws IOException {
+    public void saveApplicationWithResume(ApplicationResource applicationResource,
+                                          MultipartFile resumeFile) throws IOException {
         Long loggedInUserId = authService.getLoggedInUserId();
         applicationResource.setUserId(loggedInUserId);
         applicationResource.setAppliedDate(LocalDateTime.now());
