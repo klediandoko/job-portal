@@ -4,6 +4,7 @@ import com.internship.portal.mapper.UserMapper;
 import com.internship.portal.model.entity.User;
 import com.internship.portal.model.resource.UserResource;
 import com.internship.portal.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +28,7 @@ public class UserService {
 
     }
 
+    @Transactional
     public void deleteUser(String email) {
         if (userRepository.existsByEmail(email)) {
             userRepository.deleteByEmail(email);

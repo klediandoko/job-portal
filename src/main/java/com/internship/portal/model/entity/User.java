@@ -107,6 +107,14 @@ public class User {
         this.reviews = reviews;
     }
 
+    public Resume getResume() {
+        return resume;
+    }
+
+    public void setResume(Resume resume) {
+        this.resume = resume;
+    }
+
     @Override
     public String toString() {
         return "User{" +

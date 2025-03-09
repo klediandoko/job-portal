@@ -10,7 +10,4 @@ public interface ResumeMapper {
 
     @Mapping(source = "jobSeeker.id", target = "userId")
     ResumeResource toResource(Resume resume);
-
-    @Mapping(source = "userId", target = "jobSeeker.id")
-    Resume toEntity(ResumeResource resumeResource);
 }
