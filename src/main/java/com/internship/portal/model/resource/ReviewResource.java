@@ -47,10 +47,6 @@ public class ReviewResource {
         this.rating = rating;
     }
 
-    public String getEmployerName() {
-        return employerName;
-    }
-
     public void setEmployerName(String employerName) {
         this.employerName = employerName;
     }

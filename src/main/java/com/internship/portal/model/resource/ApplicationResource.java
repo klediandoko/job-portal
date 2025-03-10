@@ -57,10 +57,6 @@ public class ApplicationResource {
         this.motivationalLetter = motivationalLetter;
     }
 
-    public String getApplicantName() {
-        return applicantName;
-    }
-
     public void setApplicantName(String applicantName) {
         this.applicantName = applicantName;
     }
@@ -87,10 +83,6 @@ public class ApplicationResource {
 
     public void setUserId(Long userId) {
         this.userId = userId;
-    }
-
-    public ResumeResource getResumeResource() {
-        return resumeResource;
     }
 
     public void setResumeResource(ResumeResource resumeResource) {

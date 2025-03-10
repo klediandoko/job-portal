@@ -32,11 +32,6 @@ public class Review {
     public Review() {
     }
 
-    public Review(Long id, String reviewDescription, Integer rating) {
-        this.id = id;
-        this.reviewDescription = reviewDescription;
-        this.rating = rating;
-    }
     public Long getId() {
         return id;
     }

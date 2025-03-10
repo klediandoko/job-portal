@@ -25,9 +25,8 @@ public class JwtUtils {
         return Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 
-    // Generate a token with the email as the subject
+
     public String generateJwtToken(Authentication authentication) {
-        // Here, we assume that the email is stored in the UserDetails's username field.
         String email = ((UserDetails) authentication.getPrincipal()).getUsername();
         return Jwts.builder()
                 .setSubject(email)
@@ -42,12 +41,10 @@ public class JwtUtils {
             Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token);
             return true;
         } catch (Exception e) {
-            // Optionally log the exception
         }
         return false;
     }
 
-    // Extract the email from the token (stored in the subject)
     public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
     }
@@ -61,7 +58,6 @@ public class JwtUtils {
         return claimsResolver.apply(claims);
     }
 
-    // For compatibility with existing filters, you can also provide:
     public String getEmailFromJwtToken(String token) {
         return extractEmail(token);
     }

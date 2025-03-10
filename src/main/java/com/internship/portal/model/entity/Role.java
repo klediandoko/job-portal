@@ -35,18 +35,6 @@ public class Role {
         return roleName;
     }
 
-    public void setRoleName(RoleName role) {
-        this.roleName = role;
-    }
-
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
-
     public Long getId() {
         return id;
     }

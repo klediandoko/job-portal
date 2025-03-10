@@ -23,11 +23,6 @@ public class Resume {
     public Resume() {
     }
 
-    public Resume(Long id, String filePath) {
-        this.id = id;
-        this.filePath = filePath;
-    }
-
     public Long getId() {
         return id;
     }
