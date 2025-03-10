@@ -141,13 +141,4 @@ public class Job {
     public void setApplication(List<Application> application) {
         this.application = application;
     }
-
-    public List<Review> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
-    }
-
 }

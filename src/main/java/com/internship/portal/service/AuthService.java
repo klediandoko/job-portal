@@ -23,12 +23,4 @@ public class AuthService {
         String email = ((UserDetails) authentication.getPrincipal()).getUsername();
         return userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found")).getId();
     }
-
-    public String getLoggedInUserEmail() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || authentication.getPrincipal().equals("anonymousUser")) {
-            throw new RuntimeException("User not authenticated");
-        }
-        return ((UserDetails) authentication.getPrincipal()).getUsername();
-    }
 }

@@ -11,12 +11,6 @@ public class UserResource {
     public UserResource() {
     }
 
-    public UserResource(User user){
-        this.name = user.getName();
-        this.email=user.getEmail();
-        this.roleName=user.getRole().getRoleName().name();
-    }
-
     public String getName() {
         return name;
     }
@@ -31,10 +25,6 @@ public class UserResource {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getRoleName() {
-        return roleName;
     }
 
     public void setRoleName(String roleName) {

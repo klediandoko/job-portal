@@ -18,7 +18,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     public JwtAuthenticationFilter(JwtUtils jwtUtils) {
         this.jwtUtils = jwtUtils;
-        // Set the URL this filter will process
         setFilterProcessesUrl("/auth/login");
     }
 
@@ -46,7 +45,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             FilterChain chain,
                                             Authentication authResult)
             throws IOException {
-        // Generate the JWT token upon successful authentication
         String token = jwtUtils.generateJwtToken(authResult);
         response.addHeader("Authorization", "Bearer " + token);
         response.getWriter().write("{\"token\": \"" + token + "\"}");
